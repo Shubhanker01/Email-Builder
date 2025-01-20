@@ -6,8 +6,8 @@ function DisplayTemplates() {
     return (
         <>
             <div className='grid sm:grid-cols-3 gap-2'>
-                <Link>
-                    <img src={template1} alt="" className='w-[350px]'/>
+                <Link to='/template/1'>
+                    <img src={template1} alt="" className='w-[350px]' />
                 </Link>
             </div>
         </>
