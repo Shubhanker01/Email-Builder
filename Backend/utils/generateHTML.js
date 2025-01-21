@@ -1,29 +1,36 @@
 const fs = require('fs')
+const path = require('path')
 
-var htmlContent = `
+function generateOutput(html) {
+    var htmlContent = `
 <!DOCTYPE html>
 <html lang="en">
-
+    
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Output</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Output</title>
 </head>
+    
+    <body>
+        <div id="output">
+            ${html}
+        </div>
+    </body>
+    
+    
+    </html>
+    
+    `
+    fs.writeFile(path.join(__dirname, '../Layouts/output.html'), htmlContent, (err) => {
+        if (err) {
+            console.log(err)
+        }
+        else {
+            console.log('file created')
+        }
 
-<body>
-    <div id="output">
+    })
+}
 
-    </div>
-</body>
-
-
-</html>
-
-`
-
-fs.writeFile('../assets/output.html', htmlContent, (err) => {
-    if (err) {
-        console.log(err)
-    }
-    console.log('file created')
-})
+module.exports = generateOutput

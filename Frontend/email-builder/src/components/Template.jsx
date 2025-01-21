@@ -46,7 +46,8 @@ function Template() {
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        let htmlContent = document.getElementById('server-content').innerHTML
+        let htmlContent = document.getElementById('main-body').innerHTML
+        console.log(htmlContent)
         navigate('/output', { state: htmlContent })
     }
     return (
