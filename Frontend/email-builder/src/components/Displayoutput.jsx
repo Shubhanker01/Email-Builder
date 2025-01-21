@@ -1,15 +1,23 @@
 import React from 'react'
 import { useLocation } from 'react-router-dom'
+import { downloadTemplate } from '../utils/downloadTemplate.js'
 
 function Displayoutput() {
     const location = useLocation()
     const handleDownload = () => {
-        let output = document.getElementById('output-state').innerHTML
-        let blob = new Blob([output], { type: 'text/html' })
-        let url = URL.createObjectURL(blob)
-        let a = document.createElement('a')
-        a.href = url
-        console.log(blob)
+        downloadTemplate().then((res) => {
+            const htmlBlob = new Blob([res], { type: 'text/html' })
+            const url = window.URL.createObjectURL(htmlBlob)
+            const tempLink = document.createElement('a')
+            tempLink.href = url
+            tempLink.setAttribute('download', 'output.html')
+            document.body.appendChild(tempLink)
+            tempLink.click()
+            document.body.removeChild(tempLink)
+            window.URL.revokeObjectURL(url)
+        }).catch((err) => {
+            console.log(err)
+        })
     }
     return (
         <>

@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
+import saveoutput from '../utils/saveoutput'
+import imageUpload from '../utils/imageupload'
 
 function Template() {
     let [content, getContent] = useState(null)
@@ -47,8 +49,25 @@ function Template() {
     const handleSubmit = (e) => {
         e.preventDefault()
         let htmlContent = document.getElementById('main-body').innerHTML
-        console.log(htmlContent)
-        navigate('/output', { state: htmlContent })
+        saveoutput(htmlContent).then((res) => {
+            console.log(res)
+            navigate('/output', { state: htmlContent })
+        }).catch((err) => {
+            console.log(err)
+        })
+
+    }
+
+    const uploadImage = (e) => {
+        e.preventDefault()
+        const image = document.getElementById('image').files[0]
+        const formData = new FormData()
+        formData.append('image-upload', image)
+        imageUpload(formData).then((res) => {
+            document.getElementById('img').src = res
+        }).catch((err) => {
+            console.log(err)
+        })
     }
     return (
         <>
@@ -101,13 +120,17 @@ function Template() {
 
                             </div>
 
-                            <div className="mb-6">
-                                <label for="image" className="block text-lg font-medium text-gray-800 mb-1">Change Image</label>
-                                <input type="file" id="image" name="image" accept="image/*" className="w-full" onChange={imageChange} />
-                            </div>
-
                             <div className="flex justify-end">
                                 <button type="submit" className="px-6 py-2 bg-indigo-500 text-white font-semibold rounded-md hover:bg-indigo-600 focus:outline-none">Apply</button>
+                            </div>
+                        </form>
+                        <form encType='multipart/form-data' onSubmit={uploadImage}>
+                            <div className="mb-6">
+                                <label for="image" className="block text-lg font-medium text-gray-800 mb-1">Change Image</label>
+                                <input type="file" id="image" name="image-upload" accept="image/*" className="w-full" onChange={imageChange} />
+                            </div>
+                            <div className="flex justify-start">
+                                <button type="submit" className="px-6 py-2 bg-indigo-500 text-white font-semibold rounded-md hover:bg-indigo-600 focus:outline-none">Upload Image</button>
                             </div>
                         </form>
                     </div>
