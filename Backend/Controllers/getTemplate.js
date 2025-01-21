@@ -1,8 +1,7 @@
 const getTemplate = async (req, res) => {
     try {
-        let bodyContent = req.body
-        res.setHeader('Content-type', 'text/html')
-        res.send(Buffer.from(bodyContent))
+        let blob = req.body
+        res.send(blob)
     } catch (error) {
         console.log(error)
     }

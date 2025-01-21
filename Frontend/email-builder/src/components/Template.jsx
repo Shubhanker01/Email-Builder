@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
+import { useNavigate } from 'react-router-dom'
 
 function Template() {
     let [content, getContent] = useState(null)
@@ -13,6 +14,7 @@ function Template() {
 
     let [title, getTitle] = useState('')
     let [paragraph, getParagraph] = useState('')
+    const navigate = useNavigate()
     const titleEdit = (e) => {
         getTitle(e.target.value)
         document.getElementById('heading').style.color = e.target.value
@@ -41,14 +43,20 @@ function Template() {
             document.getElementById('img').src = URL.createObjectURL(file)
         }
     }
+
+    const handleSubmit = (e) => {
+        e.preventDefault()
+        let htmlContent = document.getElementById('server-content').innerHTML
+        navigate('/output', { state: htmlContent })
+    }
     return (
         <>
-            {console.log(document.getElementById('server-content').innerHTML)}
+
             <div className='grid grid-cols-2 gap-2 h-full'>
                 <div className='ml-[10px] w-[100%] h-[100%] mt-[20px]' dangerouslySetInnerHTML={{ __html: content }} id='server-content'></div>
                 <div className='border-2 border-gray-800 rounded-md ml-[30px] mt-[20px] mr-[30px]'>
                     <div className="max-w-2xl mx-auto p-4">
-                        <form>
+                        <form onSubmit={handleSubmit}>
                             <h1>Title</h1>
                             <div className="mb-6">
                                 <label htmlFor="bg-color" className="block text-lg font-medium text-gray-800 mb-1">Background Color</label>
