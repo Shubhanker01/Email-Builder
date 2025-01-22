@@ -1,8 +1,8 @@
 const path = require('path')
 const getEmailTemplate = async (req, res) => {
     try {
-        res.sendFile(path.join(__dirname, '../Layouts/layout1.html'))
-
+        let id = req.params.id
+        res.sendFile(path.join(__dirname, `../Layouts/layout${id}.html`))
     } catch (error) {
         console.log(error)
     }

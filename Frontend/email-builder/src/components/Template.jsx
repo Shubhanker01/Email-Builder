@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import saveoutput from '../utils/saveoutput'
 import imageUpload from '../utils/imageupload'
 import { changeBgColor, changeContentColor, changeTitleColor } from '../utils/changeColor'
@@ -8,20 +8,34 @@ import { changeContentSize, changeTitleSize } from '../utils/changeFontSize'
 import imageChange from '../utils/changeImage'
 import { changeContentFont, changeHeadingFont } from '../utils/changeFontFamily'
 import { alignContent, alignHeading } from '../utils/alignText'
-
+import { toast } from 'react-toastify'
 
 function Template() {
     let [content, getContent] = useState(null)
+    let [error, setError] = useState(false)
+    let { id } = useParams()
+    const navigate = useNavigate()
     useEffect(() => {
         ; (async () => {
-            let response = await axios.get('http://localhost:3000/api/v1/getEmailLayout')
-            let data = await response.data
-            getContent(data)
+            try {
+                let response = await axios.get(`http://localhost:3000/api/v1/getEmailLayout/${id}`)
+                let data = await response.data
+                getContent(data)
+            } catch (error) {
+                setError(true)
+            }
         })();
+        return () => {
+            setError(false)
+        }
     }, [])
 
-
-    const navigate = useNavigate()
+    if (content == null) {
+        return <div>Loading...</div>
+    }
+    if (error) {
+        return <div>Something went wrong</div>
+    }
 
 
     const handleSubmit = (e) => {
@@ -43,6 +57,7 @@ function Template() {
         formData.append('image-upload', image)
         let filename = formData.get('image-upload').name
         imageUpload(formData, filename).then((res) => {
+            toast.success('Image Uploaded Successfully', { position: 'top-center' })
             document.getElementById('img').src = res
         }).catch((err) => {
             console.log(err)
@@ -51,25 +66,25 @@ function Template() {
     return (
         <>
 
-            <div className='grid grid-cols-2 gap-2 h-full'>
-                <div className='ml-[10px] w-[100%] h-[100%] mt-[20px]' dangerouslySetInnerHTML={{ __html: content }} id='server-content'></div>
-                <div className='border-2 border-gray-800 rounded-md ml-[30px] mt-[20px] mr-[30px]'>
-                    <div className="max-w-2xl mx-auto p-4">
+            <div className='grid sm:grid-cols-2 gap-2 h-full'>
+                <div className='ml-[30px] sm:w-[100%] w-[100%] h-[100%] mt-[20px]' dangerouslySetInnerHTML={{ __html: content }} id='server-content'></div>
+                <div className='border-2 border-gray-800 rounded-md ml-[30px] sm:mt-[20px] mt-[60px] mr-[30px]'>
+                    <div className="sm:max-w-2xl w-[100%] mx-auto p-4">
                         <form onSubmit={handleSubmit}>
-                            <h1>Title</h1>
+
                             <div className="mb-6">
                                 <label htmlFor="bg-color" className="block text-lg font-medium text-gray-800 mb-1">Background Color</label>
-                                <input type="color" id="bg-color" name="bg-color" className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500" required onChange={changeBgColor} />
+                                <input type="color" id="bg-color" name="bg-color" className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500" onChange={changeBgColor} />
                             </div>
                             <div className="mb-6">
                                 <label htmlFor="title" className="block text-lg font-medium text-gray-800 mb-1">Title Color</label>
-                                <input type="color" id="title" name="title" className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500" required onChange={changeTitleColor} />
+                                <input type="color" id="title" name="title" className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500" onChange={changeTitleColor} />
                             </div>
                             <div className="mb-6">
                                 <label htmlFor="content-color" className="block text-lg font-medium text-gray-800 mb-1">Content Color</label>
-                                <input type="color" id="content-color" name="content-color" className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500" required onChange={changeContentColor} defaultValue='#F1F5F9' />
+                                <input type="color" id="content-color" name="content-color" className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500" required onChange={changeContentColor} />
                             </div>
-                            <div className="mb-6 flex">
+                            <div className="mb-6 sm:flex">
                                 <div className='mx-2'>
                                     <label htmlFor="heading-size" className="block text-lg font-medium text-gray-800 mb-1">Title Size</label>
                                     <select name="heading-size" id="heading-size" onChange={changeTitleSize} defaultValue={16}>
