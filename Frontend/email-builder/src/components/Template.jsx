@@ -10,6 +10,7 @@ import { changeContentFont, changeHeadingFont } from '../utils/changeFontFamily'
 import { alignContent, alignHeading } from '../utils/alignText'
 import { toast } from 'react-toastify'
 
+
 function Template() {
     let [content, getContent] = useState(null)
     let [error, setError] = useState(false)
@@ -18,7 +19,7 @@ function Template() {
     useEffect(() => {
         ; (async () => {
             try {
-                let response = await axios.get(`http://localhost:3000/api/v1/getEmailLayout/${id}`)
+                let response = await axios.get(`https://email-builder-backend-oam4.onrender.com/api/v1/getEmailLayout/${id}`)
                 let data = await response.data
                 getContent(data)
             } catch (error) {

@@ -2,7 +2,7 @@ import axios from "axios";
 
 async function imageUpload(formData, filename) {
     try {
-        let response = await axios.post('http://localhost:3000/api/v1/upload', formData, {
+        let response = await axios.post('https://email-builder-backend-oam4.onrender.com/api/v1/upload', formData, {
             headers: {
                 'Content-Type': 'multipart/form-data'
             },
@@ -10,7 +10,7 @@ async function imageUpload(formData, filename) {
         })
         let data = await response.data
         let url = URL.createObjectURL(data)
-        url = url.replace(url, `http://localhost:3000/api/v1/sendImage/${filename}`)
+        url = url.replace(url, `https://email-builder-backend-oam4.onrender.com/api/v1/sendImage/${filename}`)
         console.log(url)
         return url
 
