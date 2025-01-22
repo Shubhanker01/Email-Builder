@@ -3,6 +3,12 @@ import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 import saveoutput from '../utils/saveoutput'
 import imageUpload from '../utils/imageupload'
+import { changeBgColor, changeContentColor, changeTitleColor } from '../utils/changeColor'
+import { changeContentSize, changeTitleSize } from '../utils/changeFontSize'
+import imageChange from '../utils/changeImage'
+import { changeContentFont, changeHeadingFont } from '../utils/changeFontFamily'
+import { alignContent, alignHeading } from '../utils/alignText'
+
 
 function Template() {
     let [content, getContent] = useState(null)
@@ -14,37 +20,9 @@ function Template() {
         })();
     }, [])
 
-    let [title, getTitle] = useState('')
-    let [paragraph, getParagraph] = useState('')
+
     const navigate = useNavigate()
-    const titleEdit = (e) => {
-        getTitle(e.target.value)
-        document.getElementById('heading').style.color = e.target.value
-    }
-    const paragraphEdit = (e) => {
-        getParagraph(e.target.value)
-    }
-    const changeBgColor = (e) => {
-        document.getElementById('body').style.backgroundColor = e.target.value
-        document.getElementById('heading').style.backgroundColor = e.target.value
-        document.getElementById('content').style.backgroundColor = e.target.value
-    }
-    const changeContentColor = (e) => {
-        document.getElementById('content').style.color = e.target.value
-    }
-    const changeTitleSize = (e) => {
-        document.getElementById('heading').style.fontSize = `${e.target.value}px`
-    }
-    const changeContentSize = (e) => {
-        document.getElementById('content').style.fontSize = `${e.target.value}px`
-    }
-    const imageChange = (e) => {
-        const imgHandle = document.getElementById('image').files
-        const [file] = imgHandle
-        if (file) {
-            document.getElementById('img').src = URL.createObjectURL(file)
-        }
-    }
+
 
     const handleSubmit = (e) => {
         e.preventDefault()
@@ -64,7 +42,7 @@ function Template() {
         const formData = new FormData()
         formData.append('image-upload', image)
         let filename = formData.get('image-upload').name
-        imageUpload(formData,filename).then((res) => {
+        imageUpload(formData, filename).then((res) => {
             document.getElementById('img').src = res
         }).catch((err) => {
             console.log(err)
@@ -85,7 +63,7 @@ function Template() {
                             </div>
                             <div className="mb-6">
                                 <label htmlFor="title" className="block text-lg font-medium text-gray-800 mb-1">Title Color</label>
-                                <input type="color" id="title" name="title" className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500" required onChange={titleEdit} />
+                                <input type="color" id="title" name="title" className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500" required onChange={changeTitleColor} />
                             </div>
                             <div className="mb-6">
                                 <label htmlFor="content-color" className="block text-lg font-medium text-gray-800 mb-1">Content Color</label>
@@ -118,9 +96,46 @@ function Template() {
                                         <option>64</option>
                                     </select>
                                 </div>
+                                <div className='mx-2'>
+                                    <label htmlFor='content-font' className="block text-lg font-medium text-gray-800 mb-1">Content Font</label>
+                                    <select name='content-font' id='content-font' defaultValue={'Arial'} onChange={changeContentFont}>
+                                        <option>Times New Roman</option>
+                                        <option>Arial</option>
+                                        <option>Verdana</option>
+                                        <option>Helvetica</option>
+                                        <option>Georgia</option>
+                                    </select>
+                                </div>
+                                <div className='mx-2'>
+                                    <label htmlFor='heading-font' className="block text-lg font-medium text-gray-800 mb-1">Heading Font</label>
+                                    <select name='heading-font' id='heading-font' defaultValue={'Arial'} onChange={changeHeadingFont}>
+                                        <option>Times New Roman</option>
+                                        <option>Arial</option>
+                                        <option>Verdana</option>
+                                        <option>Helvetica</option>
+                                        <option>Georgia</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div className='mb-6 flex'>
+                                <div className='mx-2'>
+                                    <label htmlFor='align-content' className="block text-lg font-medium text-gray-800 mb-1">Align Content</label>
+                                    <select name='align-content' id='align-content' defaultValue={'Center'} onChange={alignContent}>
+                                        <option>Left</option>
+                                        <option>Center</option>
+                                        <option>Right</option>
+                                    </select>
+                                </div>
+                                <div className='mx-2'>
+                                    <label htmlFor='align-heading' className="block text-lg font-medium text-gray-800 mb-1">Align Heading</label>
+                                    <select name='align-heading' id='align-heading' defaultValue={'Center'} onChange={alignHeading}>
+                                        <option>Left</option>
+                                        <option>Center</option>
+                                        <option>Right</option>
+                                    </select>
+                                </div>
 
                             </div>
-
                             <div className="flex justify-end">
                                 <button type="submit" className="px-6 py-2 bg-indigo-500 text-white font-semibold rounded-md hover:bg-indigo-600 focus:outline-none">Apply</button>
                             </div>
