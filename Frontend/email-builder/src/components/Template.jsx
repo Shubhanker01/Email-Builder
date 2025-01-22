@@ -63,7 +63,8 @@ function Template() {
         const image = document.getElementById('image').files[0]
         const formData = new FormData()
         formData.append('image-upload', image)
-        imageUpload(formData).then((res) => {
+        let filename = formData.get('image-upload').name
+        imageUpload(formData,filename).then((res) => {
             document.getElementById('img').src = res
         }).catch((err) => {
             console.log(err)

@@ -19,4 +19,14 @@ async function uploadImage(req, res) {
         console.log(error)
     }
 }
-module.exports = { upload, uploadImage }
+
+async function sendImage(req, res) {
+    try {
+        let imagename = req.params.imagename
+        res.sendFile(path.join(__dirname, `../Uploads/${imagename}`))
+    }
+    catch (err) {
+        console.log(err)
+    }
+}
+module.exports = { upload, uploadImage, sendImage }
