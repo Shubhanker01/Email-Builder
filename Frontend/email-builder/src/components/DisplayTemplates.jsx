@@ -13,24 +13,24 @@ import template6 from '../assets/Template6.png'
 function DisplayTemplates() {
     return (
         <>
-            <div className='mt-[20px] ml-[20px] grid sm:grid-cols-3 gap-2'>
-                <Link to='/template/1'>
+            <div className='mt-[20px] ml-[25px] mr-[20px] grid sm:grid-cols-3 gap-2'>
+                <Link to='/template/1' className='transition duration-150 ease-out hover:ease-in transform hover:scale-105'>
                     <LazyLoadImage src={template1} alt='image-loading' width='350px' effect='blur'></LazyLoadImage>
                 </Link>
-                <Link to='/template/2'>
+                <Link to='/template/2' className='transition duration-150 ease-out hover:ease-in transform hover:scale-105'>
                     <LazyLoadImage src={template2} alt='image-loading' width='350px' effect='blur'></LazyLoadImage>
                 </Link>
-                <Link to='/template/3'>
+                <Link to='/template/3' className='transition duration-150 ease-out hover:ease-in transform hover:scale-105'>
 
                     <LazyLoadImage src={template3} alt='image-loading' width='350px' effect='blur'></LazyLoadImage>
                 </Link>
-                <Link to='/template/4'>
+                <Link to='/template/4' className='transition duration-150 ease-out hover:ease-in transform hover:scale-105'>
                     <LazyLoadImage src={template4} alt='image-loading' width='350px' effect='blur'></LazyLoadImage>
                 </Link>
-                <Link to='/template/5'>
+                <Link to='/template/5' className='transition duration-150 ease-out hover:ease-in transform hover:scale-105'>
                     <LazyLoadImage src={template5} alt='image-loading' width='350px' effect='blur'></LazyLoadImage>
                 </Link>
-                <Link to='/template/6'>
+                <Link to='/template/6' className='transition duration-150 ease-out hover:ease-in transform hover:scale-105'>
                     <LazyLoadImage src={template6} alt='image-loading' width='350px' effect='blur'></LazyLoadImage>
                 </Link>
             </div>
